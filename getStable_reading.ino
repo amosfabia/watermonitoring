@@ -16,9 +16,24 @@ void getStable_temp(float reading) {
     temp_lastReadTime = millis();
   }
   else if ((millis() - temp_lastReadTime) > readInterval) {
-    Serial.println("stable reading");
+    Serial.println("stable temperature reading");
     isTempStable = true;
   }
 
   temp_lastReading = recentReading;
+}
+
+void getStable_ph(float reading) {
+  
+  float recentReading = reading;
+  
+  if (recentReading != ph_lastReading) {
+    temp_lastReadTime = millis();
+  }
+  else if ((millis() - ph_lastReadTime) > readInterval) {
+    Serial.println("stable ph reading");
+    isPhStable = true;
+  }
+
+  ph_lastReading = recentReading;
 }

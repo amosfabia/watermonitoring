@@ -1,4 +1,6 @@
 bool isTempStable = false;
+bool isPhStable = false;
+bool isDepthStable = false;
 
 
 void setup(void)
@@ -9,9 +11,15 @@ void setup(void)
 void loop(void)
 {
 
- if(!isTempStable){
-  float temp = printTemperature();
-  getStable_temp(temp);
- }
+  if (!isTempStable) {
+    float temp = printTemperature();
+    getStable_temp(temp);
+  }
+
+  if (!isPhStable) {
+    float ph = printpH();
+    getStable_ph(ph);
+  }
+  
 
 }
