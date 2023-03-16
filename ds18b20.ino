@@ -32,7 +32,7 @@ void ds18b20_setup() {
 
 
 // function to print the temperature for a device
-void printTemperature()
+float printTemperature()
 {
   sensors.requestTemperatures(); // Send the command to get temperatures
 
@@ -44,8 +44,5 @@ void printTemperature()
   }
   Serial.print("Temp C: ");
   Serial.println(tempC);
-}
-
-void getStableRead(float readings){
-  
+  return tempC;
 }

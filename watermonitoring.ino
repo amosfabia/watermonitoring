@@ -1,3 +1,5 @@
+bool isTempStable = false;
+
 
 void setup(void)
 {
@@ -6,6 +8,10 @@ void setup(void)
 }
 void loop(void)
 {
- 
-  printTemperature(); // Use a simple function to print out the data
+
+ if(!isTempStable){
+  float temp = printTemperature();
+  getStable_temp(temp);
+ }
+
 }

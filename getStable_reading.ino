@@ -1,20 +1,24 @@
-unsigned long lastReadTime = 0;
-int readInterval = 5000;          //wait 5 seconds for readings to change
+unsigned long temp_lastReadTime = 0;
+unsigned long ph_lastReadTime = 0;
+unsigned long depth_lastReadTime = 0;
 
-void waitForStableRead(){
+const int readInterval = 5000;          //wait 5 seconds for readings to change
+float temp_lastReading;
+float ph_lastReading;
+float depth_lastReading;
+
+
+void getStable_temp(float reading) {
   
+  float recentReading = reading;
+  
+  if (recentReading != temp_lastReading) {
+    temp_lastReadTime = millis();
+  }
+  else if ((millis() - temp_lastReadTime) > readInterval) {
+    Serial.println("stable reading");
+    isTempStable = true;
+  }
+
+  temp_lastReading = recentReading;
 }
-
-if (recentReading != lastReading) {
-    // reset the debouncing timer
-    lastReadTime = millis();
-  }
-
-  if ((millis() - lastReadTime) > readInterval) {
-    // whatever the reading is at, it's been there for longer than the debounce
-    // delay, so take it as the actual current state:
-
-    
-  }
-
-  lastReading = recentReading;
