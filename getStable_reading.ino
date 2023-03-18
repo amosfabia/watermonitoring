@@ -2,7 +2,7 @@ unsigned long temp_lastReadTime = 0;
 unsigned long ph_lastReadTime = 0;
 unsigned long depth_lastReadTime = 0;
 
-const int readInterval = 5000;          //wait 5 seconds for readings to change
+const int readInterval = 7000;          //wait 5 seconds for readings to change
 float temp_lastReading;
 float ph_lastReading;
 float depth_lastReading;

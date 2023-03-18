@@ -1,7 +1,9 @@
 bool isTempStable = false;
 bool isPhStable = false;
 bool isDepthStable = false;
-
+bool allReadingsStable = false;
+float raw_temp;
+float raw_ph;
 
 void setup(void)
 {
@@ -11,15 +13,22 @@ void setup(void)
 void loop(void)
 {
 
-  if (!isTempStable) {
-    float temp = printTemperature();
-    getStable_temp(temp);
-  }
+  //  if (!isTempStable) {
+  //    raw_temp = printTemperature();
+  //    getStable_temp(raw_temp);
+  //  }
 
   if (!isPhStable) {
-    float ph = printpH();
-    getStable_ph(ph);
+    raw_ph = printpH();
+    getStable_ph(raw_ph);
   }
 
+  if (isTempStable && isPhStable) {
+    allReadingsStable = true;
+    Serial.println("readings are all stable");
+    Serial.println("Send readings to gateway? press button to send");
+  }
+
+  sendWaterStatus(String(raw_temp), String(raw_ph));
 
 }
