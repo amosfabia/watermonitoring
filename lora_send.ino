@@ -1,4 +1,5 @@
-
+#include <SPI.h>              // include libraries
+#include <LoRa.h>
 
 const int csPin = 10;          // LoRa radio chip select
 const int resetPin = -1;       // LoRa radio reset
@@ -76,7 +77,6 @@ void onReceive(int packetSize) {
 
   if (incoming == String(acknowledge)) {
     sentSuccess = true;
-    isCounting = true;
     Serial.println("sent success");
   }
 

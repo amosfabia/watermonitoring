@@ -28,12 +28,12 @@ void getStable_ph(float reading) {
   float recentReading = reading;
   
   if (recentReading != ph_lastReading) {
-    temp_lastReadTime = millis();
+    ph_lastReading = millis();
   }
   else if ((millis() - ph_lastReadTime) > readInterval) {
     Serial.println("stable ph reading");
     isPhStable = true;
   }
-
+  
   ph_lastReading = recentReading;
 }

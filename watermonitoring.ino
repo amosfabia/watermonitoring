@@ -20,6 +20,6 @@ void loop(void)
     float ph = printpH();
     getStable_ph(ph);
   }
-  
+
 
 }
