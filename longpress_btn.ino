@@ -1,5 +1,5 @@
 
-const int LONG_PRESS_TIME  = 2000; // 1000 milliseconds
+const int LONG_PRESS_TIME  = 1000; // 1000 milliseconds
 
 // Variables will change:
 int lastState = LOW;  // the previous state from the input pin
