@@ -1,23 +1,26 @@
-bool isTempStable = false;
-bool isDepthStable = false;
-bool allReadingsStable = false;
+#define sendCountbttn 3
+#define rstbtn 7
 
-float raw_temp;
+byte numSentMsg = 0;
 
-byte readingState = 0x01;
-byte toSendState = 0x04;
-byte sendingState = 0x05;
+const byte readingState = 0x01;
+const byte toSendState = 0x04;
+const byte sendingState = 0x05;
 byte state = readingState;
 
 
 void setup(void)
 {
+  attachInterrupt(digitalPinToInterrupt(sendCountbttn), my_interrupt_handler, FALLING);
   Serial.begin(9600);
+  Serial.println("Water monitoring");
+
   ds18b20_setup();
   Serial.println("Reading state...");
 }
-void loop(void)
-{
-  getStable_ph();
-  getStable_temp();
+void loop(void) {
+
+  startmonitoring();
+  sendWaterStatus();
+  resetreadORsendmsg();
 }

@@ -1,3 +1,7 @@
+bool isTempStable = false;
+bool isDepthStable = false;
+bool isPhStable = false;
+
 unsigned long temp_lastReadTime = 0;
 unsigned long ph_lastReadTime = 0;
 unsigned long depth_lastReadTime = 0;
@@ -6,8 +10,6 @@ const int readInterval = 1000;          //wait 5 seconds for readings to change
 float temp_lastReading;
 float ph_lastReading;
 float depth_lastReading;
-
-bool isPhStable = false;
 
 void getStable_temp() {
    if (isTempStable) {
@@ -50,4 +52,15 @@ void getStable_ph() {
   }
 
   ph_lastReading = recentReading;
+}
+
+
+void startmonitoring(){
+  if (state == readingState) {
+    getStable_ph();
+    getStable_temp();
+    if(isTempStable && isDepthStable){
+      Serial.println("Finished Reading.");
+    }
+  }
 }

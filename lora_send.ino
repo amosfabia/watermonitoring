@@ -12,7 +12,6 @@ unsigned long lastSendTime = 0;        // last send time
 int interval = 5000;
 
 String acknowledge = "monitor";
-byte numSentMsg = 0;
 byte maxSentMsg = 3;
 String message;
 
@@ -32,12 +31,12 @@ void LoRaSetup() {                         // used to only receive lora with the
   LoRa_rxMode();
 }
 
-void sendWaterStatus(String temp, String ph) {
+void sendWaterStatus() {
   if (state == sendingState) {                            //send continuously until esp8266 replied
 
     if (millis() - lastSendTime > interval) {    //send every interval seconds
 
-      message = temp + '$' + ph;    // send a message
+      message = temp_lastReading + '$' + ph_lastReading;    // send a message
       sendMessage(message);
       lastSendTime = millis();                    // timestamp the message
     }
@@ -87,7 +86,7 @@ void onReceive(int packetSize) {
   }
 
   if (incoming == acknowledge) {
-    state = tosendState;
+    state = toSendState;
     Serial.println("sent success");
     numSentMsg = 0;
   }
