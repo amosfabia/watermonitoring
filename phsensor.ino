@@ -29,7 +29,5 @@ float printpH() {
   float volt = (float)avgval * 5.0 / 1024 / 6;
   float ph_act = -5.70 * volt + calibration_value;
 
-  Serial.print("pH Val:");
-  Serial.println(ph_act);
   return ph_act; 
 }
