@@ -10,8 +10,11 @@ const byte sendingState = 0x05;
 byte state = readingState;
 
 
-void setup(void)
+void setup()
 {
+  pinMode(rstbtn, INPUT_PULLUP);
+  pinMode(sendCountbttn, INPUT_PULLUP);
+  
   attachInterrupt(digitalPinToInterrupt(sendCountbttn), my_interrupt_handler, FALLING);
   Serial.begin(9600);
   Serial.println("Water monitoring");
@@ -19,7 +22,7 @@ void setup(void)
   ds18b20_setup();
   Serial.println("Reading state...");
 }
-void loop(void) {
+void loop() {
 
   startmonitoring();
   sendWaterStatus();

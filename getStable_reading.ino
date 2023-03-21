@@ -42,7 +42,7 @@ void getStable_ph() {
   Serial.print("ph: ");
   Serial.println(recentReading);
   
-  if (recentReading != ph_lastReading) {
+  if (abs(recentReading - ph_lastReading) > 0.01) {
     ph_lastReadTime = millis();
   }
 

@@ -1,15 +1,15 @@
 
 const int LONG_PRESS_TIME  = 1000; // 1000 milliseconds
 
-// Variables will change:
-int lastState = LOW;  // the previous state from the input pin
-int currentState;     // the current reading from the input pin
+
+bool lastState = LOW;
+bool currentState;  
 unsigned long pressedTime  = 0;
 unsigned long releasedTime = 0;
 
 
 void resetreadORsendmsg() {
-  // read the state of the switch/button:
+
   currentState = digitalRead(rstbtn);
 
   if (lastState == HIGH && currentState == LOW)       // button is pressed
