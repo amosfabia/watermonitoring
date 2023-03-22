@@ -17,7 +17,7 @@ byte maxSentMsg = 3;                  // continue to send until max limit reache
 String msg = " ";
 
 void LoRaSetup() {
-   LoRa.setPins(10, -1, 2);
+   LoRa.setPins(csPin, resetPin, irqPin);
   if (!LoRa.begin(433E6)) {                       // initialize ratio at 915 MHz
     Serial.println("LoRa init failed. Check your connections.");
     while (true);                                 // if failed, do nothing
@@ -79,7 +79,7 @@ void sendMessage(String outgoing) {
 }
 
 
-void onReceive(int packetSize) {        
+void onReceive(int packetSize) {       
 
   // read packet header bytes:
   int receiver = LoRa.read();                  // receiver address
@@ -99,13 +99,13 @@ void onReceive(int packetSize) {
 
   // if the receiver isn't this device or broadcast,
   if (receiver != localAddress && receiver != 0xFF) {
-    Serial.println("This message is not for me.");
+//    Serial.println("This message is not for me.");
     return;                                    // skip rest of function
   }
 
   if (incoming == acknowledge) {
     state = toSendState;                      //stop sending after received callback
-    Serial.print("sent success");
+    Serial.println("\nSent Success");
     numSentMsg = 0;
   }
 
