@@ -18,7 +18,7 @@ void resetreadORsendmsg() {
     releasedTime = millis();
 
     long pressDuration = releasedTime - pressedTime;
-    Serial.println(pressDuration);
+
 
     if ( pressDuration > LONG_PRESS_TIME )
       if (state == finishreadState || state == readingState) {

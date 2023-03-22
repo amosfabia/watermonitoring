@@ -48,7 +48,7 @@ void getStable_ph() {
   ph_recentave = (ph_recentReading + ph_lastReading)/2;
   
   Serial.print("ph: ");
-  Serial.println(ph_recentave);
+  Serial.println(ph_recentReading);
   
   if (ph_recentave != ph_lastave) {
     ph_lastReadTime = millis();

@@ -1,22 +1,23 @@
+#define csPin  10         // LoRa radio chip select
+#define resetPin  -1       // LoRa radio reset
+#define irqPin  2         // change for your board; must be a hardware interrupt pin
+
 #include <SPI.h>              // include libraries
 #include <LoRa.h>
-
-#define csPin  10          // LoRa radio chip select
-#define resetPin -1       // LoRa radio reset
-#define irqPin  2         // change for your board; must be a hardware interrupt pin
 
 byte localAddress = 0xAA;     // address of this device
 byte destination = 0xFF;      // destination to send to
 
 unsigned long lastSendTime = 0;        // last send time
-int interval = 5000;
+int interval = 3000;                   // send msg every 5 seconds
 
-String acknowledge = "monitor";
-byte maxSentMsg = 3;
-String message;
+String acknowledge = "monitor";        // symbol or word to check from esp8266 reply(callback)
+byte maxSentMsg = 3;                  // continue to send until max limit reached,then show "failed to send"
 
-void LoRaSetup() {                         // used to only receive lora with the same syncword, receive lora within the network only
-  LoRa.setPins(csPin, resetPin, irqPin);
+String msg = " ";
+
+void LoRaSetup() {
+   LoRa.setPins(10, -1, 2);
   if (!LoRa.begin(433E6)) {                       // initialize ratio at 915 MHz
     Serial.println("LoRa init failed. Check your connections.");
     while (true);                                 // if failed, do nothing
@@ -31,22 +32,41 @@ void LoRaSetup() {                         // used to only receive lora with the
   LoRa_rxMode();
 }
 
+void onTxDone() {
+  LoRa_rxMode();
+  Serial.print("sent status: ");
+  Serial.println(msg);
+  numSentMsg += 1;
+}
+
+void LoRa_txMode(){
+  LoRa.idle();                          // set standby mode
+  LoRa.disableInvertIQ();                // active invert I and Q signals
+}
+
+void LoRa_rxMode(){
+  LoRa.enableInvertIQ();               // normal mode
+  LoRa.receive();                       // set receive mode
+}
+
 void sendWaterStatus() {
   if (state == sendingState) {                            //send continuously until esp8266 replied
-
     if (millis() - lastSendTime > interval) {    //send every interval seconds
-      message = String(temp_lastReading) + '$' + String(ph_lastReading);    // send a message
-      sendMessage(message);     
+      msg = String(temp_lastReading)+'$'+ph_lastReading;
+      sendMessage(msg);
       lastSendTime = millis();                    // timestamp the message
-      Serial.println("sent");
+
     }
-    if (numSentMsg == maxSentMsg) {
+
+    if (numSentMsg >= maxSentMsg) {
       state = toSendState;                           //used to stop sending
       Serial.println("sending failed, long press to resend");
       numSentMsg = 0;
     }
+    
   }
 }
+
 
 void sendMessage(String outgoing) {
   LoRa_txMode();
@@ -55,16 +75,14 @@ void sendMessage(String outgoing) {
   LoRa.write(localAddress);                      // add sender address
   LoRa.write(outgoing.length());                 // add payload length
   LoRa.print(outgoing);                          // add payload
-  LoRa.endPacket();                              // finish packet and send it                          // increment message ID
+  LoRa.endPacket(true);                              // finish packet and send it                          // increment message ID
 }
 
 
-
-void onReceive(int packetSize) {
-
+void onReceive(int packetSize) {        
 
   // read packet header bytes:
-  int receiver = LoRa.read();                  // recipient address
+  int receiver = LoRa.read();                  // receiver address
   byte sender = LoRa.read();                    // sender address
   byte incomingLength = LoRa.read();            // incoming msg length
 
@@ -79,15 +97,15 @@ void onReceive(int packetSize) {
     return;                                    // skip rest of function
   }
 
-  // if the recipient isn't this device or broadcast,
+  // if the receiver isn't this device or broadcast,
   if (receiver != localAddress && receiver != 0xFF) {
     Serial.println("This message is not for me.");
     return;                                    // skip rest of function
   }
 
   if (incoming == acknowledge) {
-    state = toSendState;
-    Serial.println("sent success");
+    state = toSendState;                      //stop sending after received callback
+    Serial.print("sent success");
     numSentMsg = 0;
   }
 
@@ -99,21 +117,4 @@ void onReceive(int packetSize) {
   Serial.println("RSSI: " + String(LoRa.packetRssi()));
   Serial.println("Snr: " + String(LoRa.packetSnr()));
   Serial.println();
-}
-
-void onTxDone() {
-  LoRa_rxMode();
-  Serial.print("sent reading: ");
-  //  Serial.println(fishcount);
-  numSentMsg += 1;
-}
-
-void LoRa_txMode() {
-  LoRa.idle();                          // set standby mode
-  LoRa.disableInvertIQ();                // active invert I and Q signals
-}
-
-void LoRa_rxMode() {
-  LoRa.enableInvertIQ();               // normal mode
-  LoRa.receive();                       // set receive mode
 }

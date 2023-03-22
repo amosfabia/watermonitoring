@@ -16,10 +16,12 @@ void setup()
   pinMode(sendCountbttn, INPUT_PULLUP);
   
   attachInterrupt(digitalPinToInterrupt(sendCountbttn), my_interrupt_handler, FALLING);
+  
   Serial.begin(9600);
   Serial.println("Water monitoring");
 
   ds18b20_setup();
+  LoRaSetup(); 
   Serial.println("Reading state...");
 }
 void loop() {
