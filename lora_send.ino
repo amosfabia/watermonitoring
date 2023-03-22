@@ -35,10 +35,10 @@ void sendWaterStatus() {
   if (state == sendingState) {                            //send continuously until esp8266 replied
 
     if (millis() - lastSendTime > interval) {    //send every interval seconds
-
-      message = temp_lastReading + '$' + ph_lastReading;    // send a message
-      sendMessage(message);
+      message = String(temp_lastReading) + '$' + String(ph_lastReading);    // send a message
+      sendMessage(message);     
       lastSendTime = millis();                    // timestamp the message
+      Serial.println("sent");
     }
     if (numSentMsg == maxSentMsg) {
       state = toSendState;                           //used to stop sending
@@ -55,7 +55,7 @@ void sendMessage(String outgoing) {
   LoRa.write(localAddress);                      // add sender address
   LoRa.write(outgoing.length());                 // add payload length
   LoRa.print(outgoing);                          // add payload
-  LoRa.endPacket(true);                              // finish packet and send it                          // increment message ID
+  LoRa.endPacket();                              // finish packet and send it                          // increment message ID
 }
 
 

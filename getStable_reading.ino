@@ -10,6 +10,10 @@ const int readInterval = 1000;          //wait 5 seconds for readings to change
 float temp_lastReading;
 float ph_lastReading;
 float depth_lastReading;
+float ph_recentReading;
+float ph_lastave, ph_recentave;
+
+//----------------------------------------------------------------
 
 void getStable_temp() {
    if (isTempStable) {
@@ -31,29 +35,34 @@ void getStable_temp() {
   temp_lastReading = recentReading;
 }
 
+//-----------------------------------------------------
+
 void getStable_ph() {
   
   if (isPhStable) {
     return;
   }
   
-  float recentReading = printpH();
+  ph_recentReading = printpH();
+  
+  ph_recentave = (ph_recentReading + ph_lastReading)/2;
   
   Serial.print("ph: ");
-  Serial.println(recentReading);
+  Serial.println(ph_recentave);
   
-  if (abs(recentReading - ph_lastReading) > 0.01) {
+  if (ph_recentave != ph_lastave) {
     ph_lastReadTime = millis();
   }
-
-  else if ((millis() - ph_lastReadTime) > readInterval) {
+  
+  if ((millis() - ph_lastReadTime) > 200) {
     Serial.println("stable ph reading");
     isPhStable = true;
   }
-
-  ph_lastReading = recentReading;
+  ph_lastave = ph_recentave;
+  ph_lastReading = ph_recentReading;
 }
 
+//----------------------------------------------------------------
 
 void startmonitoring(){
   if (state == readingState) {

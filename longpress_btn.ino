@@ -2,7 +2,7 @@
 const int LONG_PRESS_TIME  = 1000; // 1000 milliseconds
 
 
-bool lastState = LOW;
+bool lastState = HIGH;
 bool currentState;  
 unsigned long pressedTime  = 0;
 unsigned long releasedTime = 0;
@@ -18,13 +18,15 @@ void resetreadORsendmsg() {
     releasedTime = millis();
 
     long pressDuration = releasedTime - pressedTime;
+    Serial.println(pressDuration);
 
     if ( pressDuration > LONG_PRESS_TIME )
-      if (state == readingState) {
+      if (state == finishreadState || state == readingState) {
         Serial.println("start reading...");
         isTempStable = false;
         isPhStable = false;
         isDepthStable = false;
+        state = readingState;
       }
       else if (state == toSendState) {
         Serial.println("Sending readings...");
