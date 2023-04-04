@@ -28,11 +28,14 @@ void resetreadORsendmsg() {
         isDepthStable = false;
         state = readingState;
         analogReference(EXTERNAL);
+        navRead_display();
+        countReset_display();
       }
       else if (state == toSendState) {
         Serial.println("Sending readings...");
         state = sendingState;
-        numSentMsg = 0;                   // reset tracking of msgs sent
+        numSentMsg = 0;     
+        sending_display();              // reset tracking of msgs sent
       }
   }
 

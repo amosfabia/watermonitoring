@@ -2,11 +2,13 @@
 void ISR_sendRead() {
   if (state == finishreadState) {
     state = toSendState;             // pause counting
-    Serial.println("to send state");
+    Serial.println("Send to LoRa");
+    changeState = true;
   }
   else if (state == toSendState || sendingState) {
     state = readingState;
-    Serial.println("reading state");
+    Serial.println("Read water Status");
+    changeState = true;
   }
 
 }

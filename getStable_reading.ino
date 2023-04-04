@@ -6,7 +6,7 @@ unsigned long temp_lastReadTime = 0;
 unsigned long ph_lastReadTime = 0;
 unsigned long depth_lastReadTime = 0;
 
-const int readInterval = 5000;  //wait 5 seconds for readings to change
+const int readInterval = 10000;  //wait 5 seconds for readings to change
 
 float temp_lastReading;
 float ph_lastReading;
@@ -32,8 +32,9 @@ void getStable_temp() {
     Serial.println(recentReading);
     Serial.println("stable temperature reading");
     isTempStable = true;
+    readStable_display(4,0);
   }
-
+  temp_display();
   temp_lastReading = recentReading;
 }
 
@@ -57,11 +58,14 @@ void getStable_ph() {
     Serial.print("ph: ");
     Serial.println(ph_recentReading);
     Serial.println("stable ph reading");
+    readStable_display(8,0);
     isPhStable = true;
   }
-
+  ph_display();
   ph_lastReading = ph_recentReading;
 }
+
+//---------------------------------------------------------------------
 
 void getStable_depth() {
 
@@ -80,10 +84,11 @@ void getStable_depth() {
     Serial.print("depth: ");
     Serial.println(depth_recentReading);
     Serial.println("stable depth reading");
+    readStable_display(15,0);
     isDepthStable = true;
     analogReference(DEFAULT);
   }
-
+  depth_display();
   depth_lastReading = depth_recentReading;
 }
 

@@ -62,6 +62,7 @@ void sendWaterStatus() {
       state = toSendState;                           //used to stop sending
       Serial.println("sending failed, long press to resend");
       numSentMsg = 0;
+      sendingFailed_display();
     }
     
   }
@@ -107,6 +108,7 @@ void onReceive(int packetSize) {
     state = toSendState;                      //stop sending after received callback
     Serial.println("\nSent Success");
     numSentMsg = 0;
+    sendingSuccess_display();
   }
 
   // if message is for this device, or broadcast, print details:
