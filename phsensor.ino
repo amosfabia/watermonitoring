@@ -5,6 +5,10 @@ int phval = 0;
 unsigned long int avgval;
 int buffer_arr[10], temp;
 
+void ph_setup(){
+  pinMode(A0, INPUT);
+}
+
 float printpH() {
   for (int i = 0; i < 10; i++)
   {
@@ -29,5 +33,5 @@ float printpH() {
   float volt = (float)avgval * 5.0 / 1024 / 6;
   float ph_act = -5.70 * volt + calibration_value;
 
-  return ph_act; 
+  return smooth(ph_act); 
 }

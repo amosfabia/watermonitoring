@@ -21,6 +21,7 @@ void setup()
   Serial.println("Water monitoring");
 
   ds18b20_setup();
+  depthsensor_setup(); 
   LoRaSetup(); 
   Serial.println("Reading state...");
 }

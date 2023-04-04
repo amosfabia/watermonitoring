@@ -27,6 +27,7 @@ void resetreadORsendmsg() {
         isPhStable = false;
         isDepthStable = false;
         state = readingState;
+        analogReference(EXTERNAL);
       }
       else if (state == toSendState) {
         Serial.println("Sending readings...");

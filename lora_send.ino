@@ -52,7 +52,7 @@ void LoRa_rxMode(){
 void sendWaterStatus() {
   if (state == sendingState) {                            //send continuously until esp8266 replied
     if (millis() - lastSendTime > interval) {    //send every interval seconds
-      msg = String(temp_lastReading)+'$'+ph_lastReading;
+      msg = String(temp_lastReading)+'$'+ph_lastReading+'$'+depth_lastReading;
       sendMessage(msg);
       lastSendTime = millis();                    // timestamp the message
 
