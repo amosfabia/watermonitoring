@@ -6,7 +6,7 @@ unsigned long temp_lastReadTime = 0;
 unsigned long ph_lastReadTime = 0;
 unsigned long depth_lastReadTime = 0;
 
-const int readInterval = 10000;  //wait 5 seconds for readings to change
+const int readInterval = 5000;  //wait 5 seconds for readings to change
 
 float temp_lastReading;
 float ph_lastReading;
@@ -47,8 +47,8 @@ void getStable_ph() {
   }
 
 
-  float ph_recentReading = printpH();
-  Serial.println(ph_recentReading);
+  float ph_recentReading = String(printpH(),1).toFloat();
+  // Serial.println(ph_recentReading);
 
   if (ph_recentReading != ph_lastReading) {
     ph_lastReadTime = millis();
@@ -62,6 +62,7 @@ void getStable_ph() {
     isPhStable = true;
   }
   ph_display();
+  Serial.println(ph_recentReading);
   ph_lastReading = ph_recentReading;
 }
 
@@ -73,8 +74,8 @@ void getStable_depth() {
     return;
   }
 
-  float depth_recentReading = getdepth();
-  Serial.println(depth_recentReading);
+  float depth_recentReading = String(getdepth(),1).toFloat();
+  // Serial.println(depth_recentReading);
 
   if (depth_recentReading != depth_lastReading) {
     depth_lastReadTime = millis();

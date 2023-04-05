@@ -1,15 +1,15 @@
 //Parameters
-const int numReadings   = 40;
-int readings [numReadings];
+const int numReadings   = 50;
+float readings [numReadings];
 int readIndex   = 0;
-long total  = 0;
+float total  = 0;
+
 //Variables
-int aisVal  = 0;
 
 float smooth(float numIn) { /* function smooth */
   ////Perform average on sensor readings
-  float average;
   // subtract the last reading:
+  float average;
   total = total - readings[readIndex];
   // read the sensor:
   readings[readIndex] = numIn;

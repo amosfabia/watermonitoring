@@ -1,19 +1,17 @@
-#include <Wire.h>
+#define PHpin A0
 
-float calibration_value = 21.34;
+float calibration_value = 21.34 + 1.33;
 int phval = 0;
 unsigned long int avgval;
 int buffer_arr[10], temp;
 
-void ph_setup(){
-  pinMode(A0, INPUT);
-}
+
 
 float printpH() {
+  float smoothed;
   for (int i = 0; i < 10; i++)
   {
-    buffer_arr[i] = analogRead(A0);
-    delay(30);
+    buffer_arr[i] = analogRead(PHpin);
   }
   for (int i = 0; i < 9; i++)
   {
@@ -32,6 +30,7 @@ float printpH() {
     avgval += buffer_arr[i];
   float volt = (float)avgval * 5.0 / 1024 / 6;
   float ph_act = -5.70 * volt + calibration_value;
-
-  return smooth(ph_act); 
+  smoothed = smooth(ph_act);
+  return smoothed;
 }
+

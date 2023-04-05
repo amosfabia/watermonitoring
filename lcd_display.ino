@@ -42,21 +42,21 @@ void navSend_display() {
 void temp_display() {
 
   lcd.setCursor(0, 1);
-  lcd.print(String(temp_lastReading, 1));
+  lcd.print(temp_lastReading, 1);
   lcd.print(" ");
 }
 
 void ph_display() {
 
   lcd.setCursor(6, 1);
-  lcd.print(String(ph_lastReading, 1));
+  lcd.print(ph_lastReading, 1);
   lcd.print(" ");
 }
 
 void depth_display() {
 
   lcd.setCursor(10, 1);
-  lcd.print(String(depth_lastReading, 1));
+  lcd.print(depth_lastReading, 1);
   lcd.print(" ");
 }
 
