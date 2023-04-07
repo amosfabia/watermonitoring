@@ -22,9 +22,9 @@ void navRead_display() {
   lcd.print("pH ");
   lcd.setCursor(10, 0);
   lcd.print("depth ");
-  if (isDepthStable) readStable_display(15, 0);
-  if (isPhStable) readStable_display(8, 0);
-  if (isTempStable) readStable_display(4, 0);
+  if (isDepthStable) stableChecksymbol(15, 0);
+  if (isPhStable) stableChecksymbol(8, 0);
+  if (isTempStable) stableChecksymbol(4, 0);
   temp_display();
   ph_display();
   depth_display();
@@ -35,6 +35,10 @@ void navSend_display() {
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Send to LoRa");
+  longPressSend();
+}
+
+void longPressSend(){
   lcd.setCursor(0, 1);
   lcd.print("LongPress-send");
 }
@@ -63,7 +67,6 @@ void depth_display() {
 void countReset_display() {
   lcd.setCursor(0, 1);
   lcd.print("                ");
-  delay(2000);
   lcd.setCursor(1, 1);
   lcd.print("reset Reading");
   delay(2000);
@@ -80,18 +83,17 @@ void sendingFailed_display() {
   lcd.setCursor(0, 1);
   lcd.print("Sending Failed   ");
   delay(2000);
-  lcd.setCursor(0, 1);
-  lcd.print("LongPress-send   ");
+  longPressSend();
 }
 
 void sendingSuccess_display() {
   lcd.setCursor(0, 1);
   lcd.print("Send Success! ");
-  lcd.setCursor(0, 1);
-  lcd.print("LongPress-send");
+  delay(5000);
+  longPressSend();
 }
 
-void readStable_display(byte col, byte row) {
+void stableChecksymbol(byte col, byte row) {
   lcd.setCursor(col, row);
   lcd.write(5);
 }
@@ -115,6 +117,13 @@ void navigate_display() {
         //   sending_display();
         //   changeState = false;
         //   break;
+
+      case sendSuccessState:
+        sendingSuccess_display();
+        changeState = false;
+        Serial.println("---received---");
+        state = toSendState;
+        break;
     }
   }
 }

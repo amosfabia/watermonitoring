@@ -9,7 +9,7 @@ byte localAddress = 0xAA;     // address of this device
 byte destination = 0xFF;      // destination to send to
 
 unsigned long lastSendTime = 0;        // last send time
-int interval = 3000;                   // send msg every 5 seconds
+int interval = 5000;                   // send msg every 5 seconds
 
 String acknowledge = "monitor";        // symbol or word to check from esp8266 reply(callback)
 byte maxSentMsg = 3;                  // continue to send until max limit reached,then show "failed to send"
@@ -81,7 +81,6 @@ void sendMessage(String outgoing) {
 
 
 void onReceive(int packetSize) {       
-
   // read packet header bytes:
   int receiver = LoRa.read();                  // receiver address
   byte sender = LoRa.read();                    // sender address
@@ -105,18 +104,16 @@ void onReceive(int packetSize) {
 //   }
 
   if (incoming == acknowledge) {
-    state = toSendState;                      //stop sending after received callback
-    Serial.println("\nSent Success");
-    numSentMsg = 0;
-    sendingSuccess_display();
+    state = sendSuccessState;   
+    changeState = true;                   
   }
 
   // if message is for this device, or broadcast, print details:
-  Serial.println("Received from: 0x" + String(sender, HEX));
-  Serial.println("Sent to: 0x" + String(receiver, HEX));
-  Serial.println("Message length: " + String(incomingLength));
-  Serial.println("Message: " + incoming);
-  Serial.println("RSSI: " + String(LoRa.packetRssi()));
-  Serial.println("Snr: " + String(LoRa.packetSnr()));
-  Serial.println();
+  // Serial.println("Received from: 0x" + String(sender, HEX));
+  // Serial.println("Sent to: 0x" + String(receiver, HEX));
+  // Serial.println("Message length: " + String(incomingLength));
+  // Serial.println("Message: " + incoming);
+  // Serial.println("RSSI: " + String(LoRa.packetRssi()));
+  // Serial.println("Snr: " + String(LoRa.packetSnr()));
+  // Serial.println();
 }

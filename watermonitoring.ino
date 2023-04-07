@@ -3,6 +3,7 @@
 
 const byte readingState = 0x01;
 const byte finishreadState = 0x02;
+const byte sendSuccessState = 0x03;
 const byte toSendState = 0x04;
 const byte sendingState = 0x05;
 byte state = readingState;
