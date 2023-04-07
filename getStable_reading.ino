@@ -33,8 +33,8 @@ void getStable_temp() {
     Serial.println("stable temperature reading");
     isTempStable = true;
     readStable_display(4,0);
-  }
   temp_display();
+  }
   temp_lastReading = recentReading;
 }
 
@@ -60,8 +60,8 @@ void getStable_ph() {
     Serial.println("stable ph reading");
     readStable_display(8,0);
     isPhStable = true;
-  }
   ph_display();
+  }
   Serial.println(ph_recentReading);
   ph_lastReading = ph_recentReading;
 }
@@ -88,8 +88,8 @@ void getStable_depth() {
     readStable_display(15,0);
     isDepthStable = true;
     analogReference(DEFAULT);
-  }
   depth_display();
+  }
   depth_lastReading = depth_recentReading;
 }
 

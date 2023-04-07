@@ -93,16 +93,16 @@ void onReceive(int packetSize) {
     incoming += (char)LoRa.read();
   }
 
-  if (incomingLength != incoming.length()) {   // check length for error
-    Serial.println("error: message length does not match length");
-    return;                                    // skip rest of function
-  }
+  // if (incomingLength != incoming.length()) {   // check length for error
+  //   Serial.println("error: message length does not match length");
+  //   return;                                    // skip rest of function
+  // }
 
   // if the receiver isn't this device or broadcast,
-  if (receiver != localAddress && receiver != 0xFF) {
-//    Serial.println("This message is not for me.");
-    return;                                    // skip rest of function
-  }
+//   if (receiver != localAddress && receiver != 0xFF) {
+// //    Serial.println("This message is not for me.");
+//     return;                                    // skip rest of function
+//   }
 
   if (incoming == acknowledge) {
     state = toSendState;                      //stop sending after received callback
