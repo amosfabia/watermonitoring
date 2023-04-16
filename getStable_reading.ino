@@ -69,6 +69,7 @@ void getStable_ph() {
 //---------------------------------------------------------------------
 
 void getStable_depth() {
+  depth_display();
 
   if (isDepthStable || !isPhStable) {
     return;
@@ -81,7 +82,7 @@ void getStable_depth() {
     depth_lastReadTime = millis();
   }
 
-  if ((millis() - depth_lastReadTime) > readInterval) {
+  if ((millis() - depth_lastReadTime) > 2000) {
     Serial.print("depth: ");
     Serial.println(depth_recentReading);
     Serial.println("stable depth reading");
@@ -104,4 +105,5 @@ void startmonitoring() {
       Serial.println("Finished Reading.");
     }
   }
+  Serial.println( analogRead(A2));
 }
