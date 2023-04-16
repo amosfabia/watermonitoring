@@ -27,7 +27,7 @@ void resetreadORsendmsg() {
         isPhStable = false;
         isDepthStable = false;
         state = readingState;
-        analogReference(EXTERNAL);
+        analogReference(DEFAULT);
         navRead_display();
         countReset_display();
       }
