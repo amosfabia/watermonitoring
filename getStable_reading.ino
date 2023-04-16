@@ -25,15 +25,15 @@ void getStable_temp() {
 
   if (recentReading != temp_lastReading) {
     temp_lastReadTime = millis();
-  } 
-  
+  }
+
   else if ((millis() - temp_lastReadTime) > 1000) {
     Serial.print("temp: ");
     Serial.println(recentReading);
     Serial.println("stable temperature reading");
     isTempStable = true;
-    stableChecksymbol(4,0);
-  temp_display();
+    stableChecksymbol(4, 0);
+    temp_display();
   }
   temp_lastReading = recentReading;
 }
@@ -42,12 +42,12 @@ void getStable_temp() {
 
 void getStable_ph() {
 
-  if (isPhStable ||  !isDepthStable) {
+  if (isPhStable) {
     return;
   }
 
 
-  float ph_recentReading = String(printpH(),1).toFloat();
+  float ph_recentReading = String(printpH(), 1).toFloat();
   // Serial.println(ph_recentReading);
 
   if (ph_recentReading != ph_lastReading) {
@@ -58,9 +58,10 @@ void getStable_ph() {
     Serial.print("ph: ");
     Serial.println(ph_recentReading);
     Serial.println("stable ph reading");
-    stableChecksymbol(8,0);
+    stableChecksymbol(8, 0);
     isPhStable = true;
-  ph_display();
+    analogReference(EXTERNAL);
+    ph_display();
   }
   ph_lastReading = ph_recentReading;
 }
@@ -69,11 +70,11 @@ void getStable_ph() {
 
 void getStable_depth() {
 
-  if (isDepthStable) {
+  if (isDepthStable || !isPhStable) {
     return;
   }
 
-  float depth_recentReading = String(getdepth(),1).toFloat();
+  float depth_recentReading = smooth(getdepth());
   // Serial.println(depth_recentReading);
 
   if (depth_recentReading != depth_lastReading) {
@@ -84,10 +85,9 @@ void getStable_depth() {
     Serial.print("depth: ");
     Serial.println(depth_recentReading);
     Serial.println("stable depth reading");
-    stableChecksymbol(15,0);
+    stableChecksymbol(15, 0);
     isDepthStable = true;
-    analogReference(DEFAULT);
-  depth_display();
+    depth_display();
   }
   depth_lastReading = depth_recentReading;
 }
