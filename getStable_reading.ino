@@ -74,14 +74,14 @@ void getStable_depth() {
     return;
   }
 
-  float depth_recentReading = smooth(getdepth());
+  float depth_recentReading = getdepth();
   // Serial.println(depth_recentReading);
 
   if (depth_recentReading != depth_lastReading) {
     depth_lastReadTime = millis();
   }
 
-  if ((millis() - depth_lastReadTime) > readInterval) {
+  if ((millis() - depth_lastReadTime) > 1000) {
     Serial.print("depth: ");
     Serial.println(depth_recentReading);
     Serial.println("stable depth reading");
@@ -89,6 +89,7 @@ void getStable_depth() {
     isDepthStable = true;
     depth_display();
   }
+  depth_display();
   depth_lastReading = depth_recentReading;
 }
 

@@ -1,6 +1,6 @@
 #define ANALOG_PIN A2
 
-float depth;  //unit:cm
+float depth, stableread, infeet;  //unit:cm
 int feet;
 float ave;
 
@@ -10,13 +10,18 @@ void depthsensor_setup() {
 }
 
 float getdepth() {
-  ave = analogRead(ANALOG_PIN);
-  depth = (0.8333*ave) - 120.8;
-  feet = depth * 0.03280;
-
-  if (feet < 0.9) {
-    feet = 0.0;
+  float ave = analogRead(A2);
+  float depth = (0.8333*ave) - 120.8;
+  depth = smooth(depth);
+  
+  if (depth < 0.9) {
+    return 0.0;
   }
+  
+  stableread = depth * 0.01;
+  infeet = stableread * 3.281;
 
-  return feet;
+  String feetstring = String(infeet,1);
+  float finalfeet = feetstring.toFloat();
+  return finalfeet;
 }
