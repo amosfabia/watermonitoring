@@ -105,4 +105,5 @@ void startmonitoring() {
       Serial.println("Finished Reading.");
     }
   }
+  // Serial.println(ph_lastReading);
 }

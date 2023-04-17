@@ -35,7 +35,7 @@ void navSend_display() {
   lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Send to LoRa");
-  longPressSend();
+  // longPressSend();
 }
 
 void longPressSend(){
@@ -83,14 +83,14 @@ void sendingFailed_display() {
   lcd.setCursor(0, 1);
   lcd.print("Sending Failed   ");
   delay(2000);
-  longPressSend();
+  // longPressSend();
 }
 
 void sendingSuccess_display() {
   lcd.setCursor(0, 1);
   lcd.print("Send Success! ");
   delay(5000);
-  longPressSend();
+  // longPressSend();
 }
 
 void stableChecksymbol(byte col, byte row) {
@@ -122,7 +122,7 @@ void navigate_display() {
         sendingSuccess_display();
         changeState = false;
         Serial.println("---received---");
-        state = toSendState;
+        state = toSleepState;
         break;
     }
   }

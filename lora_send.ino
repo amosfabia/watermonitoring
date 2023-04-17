@@ -50,7 +50,7 @@ void LoRa_rxMode(){
 }
 
 void sendWaterStatus() {
-  if (state == sendingState) {                            //send continuously until esp8266 replied
+  if (state == finishreadState) {                            //send continuously until esp8266 replied
     if (millis() - lastSendTime > interval) {    //send every interval seconds
       msg = String(temp_lastReading)+'$'+ph_lastReading+'$'+depth_lastReading;
       sendMessage(msg);
@@ -59,7 +59,7 @@ void sendWaterStatus() {
     }
 
     if (numSentMsg >= maxSentMsg) {
-      state = toSendState;                           //used to stop sending
+      state = toSleepState;                           //used to stop sending
       Serial.println("sending failed, long press to resend");
       numSentMsg = 0;
       sendingFailed_display();

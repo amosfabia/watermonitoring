@@ -1,6 +1,6 @@
 #define PHpin A0
 
-float calibration_value = 21.34 + 1.33;
+float calibration_value = 21.34 + 0.9;
 int phval = 0;
 unsigned long int avgval;
 int buffer_arr[10], temp;
