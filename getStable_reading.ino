@@ -102,6 +102,7 @@ void startmonitoring() {
     getStable_depth();
     if (isTempStable && isPhStable && isDepthStable) {
       state = finishreadState;
+      sending_display();
       Serial.println("Finished Reading.");
     }
   }

@@ -29,7 +29,7 @@ unsigned long releasedTime = 0;
 //         state = readingState;
 //         analogReference(DEFAULT);
 //         navRead_display();
-//         countReset_display();
+        // countReset_display();
 //       }
 //       else if (state == toSendState) {
 //         Serial.println("Sending readings...");

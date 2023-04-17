@@ -16,6 +16,12 @@ void lcd_setup() {
 
 void navRead_display() {
   lcd.clear();
+
+  lcd.setCursor(2, 0);
+  lcd.print("Now Reading");
+  delay(5000);
+
+  lcd.clear();
   lcd.setCursor(0, 0);
   lcd.print("Temp ");
   lcd.setCursor(6, 0);
@@ -76,6 +82,7 @@ void countReset_display() {
 
 void sending_display() {
   lcd.setCursor(0, 1);
+  delay(3000);
   lcd.print("Sending...      ");
 }
 
@@ -96,6 +103,25 @@ void sendingSuccess_display() {
 void stableChecksymbol(byte col, byte row) {
   lcd.setCursor(col, row);
   lcd.write(5);
+}
+
+void sleepNaKo_display(){
+  lcd.clear();
+  lcd.setCursor(0,0);
+  lcd.print("now Sleeping...");
+  delay(5000);
+  lcd_sleep();
+}
+
+void lcd_sleep(){
+  lcd.noBacklight();
+  lcd.noDisplay();
+}
+
+
+void lcd_wakeup(){
+  lcd.backlight();
+  lcd.display();
 }
 
 void navigate_display() {

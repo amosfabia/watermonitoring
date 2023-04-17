@@ -35,4 +35,6 @@ void loop() {
   sendWaterStatus();
   // resetreadORsendmsg();
   navigate_display();
+
+  can_I_sleep();
 }
