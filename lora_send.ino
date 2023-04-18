@@ -105,7 +105,7 @@ void onReceive(int packetSize) {
 
   if (incoming == acknowledge) {
     state = sendSuccessState;   
-    // changeState = true;                   
+    changeState = true;                   
   }
 
   // if message is for this device, or broadcast, print details:
